@@ -1,15 +1,22 @@
 # Gobatmon
 
-Gobatmon is a simple battery level monitoring daemon for Linux systems.
+Gobatmon is a very simple battery level monitoring daemon for Linux systems.
+
 It continuously keeps an eye on the current charge level of the battery in your laptop and triggers warning notifications in case of
 low charge.
 
-System requirements:
+If charging with AC power or above 20% charge, you will see no notifications.
+If running on battery power and below 20% / 10% charge, you will receive a low battery / very low battery notification
+every 10 minutes / 5 minutes respectively. That's it.
+
+**System requirements:**
 
 - a Linux system
 - a battery
-- `notify-send`
+- a running notification server (`swaync`, `dunst` etc.)
+- the `notify-send` program on your path (should come preinstalled with your notification server)
 
+If you are using a desktop environment like Gnome or KDE Plasma, you likely won't need this software.
 
 ## Installation
 
