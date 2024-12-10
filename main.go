@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+const version = "0.1.0"
+
 const pathToCapacityFile = "/sys/class/power_supply/BAT0/capacity"
 const pathToBatteryStateFile = "/sys/class/power_supply/BAT0/status"
 
@@ -244,6 +246,8 @@ func durationUntilNextCheck(config *runtimeConfig, programState *programState) (
 }
 
 func main() {
+	log.Printf("starting gobatmon v%s\n", version)
+
 	assertDependenciesInstalled()
 
 	// Just use defaults for now

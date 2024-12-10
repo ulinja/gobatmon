@@ -10,7 +10,38 @@ System requirements:
 - a battery
 - `notify-send`
 
+
+## Installation
+
+### Manual
+
+Download the the precompiled binary (`gobatmon`) from the [latest release page](https://github.com/ulinja/gobatmon/releases/latest).
+Alternatively, install Go and build it yourself.
+
+Configure your window manager to start it on launch, or put the following into your startup script:
+```bash
+/path/to/gobatmon &
+```
+
+The daemon will run continuously in the background.
+
+Gobatmon is designed to run on as few resources as possible to conserve CPU cycles and thus its power requirement.
+
+### NixOS
+
+> :construction: Will be added in the future.
+
+## Configuration
+
+> :construction: Will be added in the future.
+>
+> You can edit the source file and compile a custom binary to configure `gobatmon` yourself.
+
 ## Development
+
+Build requirements:
+
+- `go`
 
 To build locally, run:
 
