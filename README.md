@@ -19,6 +19,30 @@ If you are using a desktop environment (Xfce/Gnome/Plasma etc.) you most likely 
 
 Gobatmon uses DBUS to dispatch desktop notifications.
 
+## Usage
+
+Simply run it by executing `gobatmon`.
+
+```
+gobatmon [OPTIONS]
+
+Options:
+    --normal-warning-threshold uint
+        Threshold percentage below which a normal low battery warning is triggered (default 20)
+    --critical-warning-threshold uint
+        Threshold percentage below which a critical low battery warning is triggered (default 10)
+    --normal-warning-reminder-timeout uint
+        Timeout in seconds after which a normal low battery warning is repeated (default 600)
+    --critical-warning-reminder-timeout uint
+        Timeout in seconds after which a critical low battery warning is repeated (default 300)
+    --poll-rate uint
+        Poll rate for battery status in seconds (default 60)
+    --version
+        Show version information and exit
+    --help
+        Show help message and exit
+```
+
 ## Installation
 
 ### Manual
@@ -38,12 +62,6 @@ Gobatmon is super-low on resources to conserve CPU cycles and thus its power req
 ### NixOS
 
 > :construction: Will be added in the future.
-
-## Configuration
-
-> :construction: Will be added in the future.
->
-> You can edit the source file and compile a custom binary to configure `gobatmon` yourself.
 
 ## Development
 
