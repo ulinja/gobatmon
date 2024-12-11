@@ -20,17 +20,17 @@ func runCheck(runtimeConfig *config.RuntimeConfig) (capacity uint, batteryState 
 	batteryState = battery.ReadBatteryState()
 
 	if batteryState == battery.BatteryStateDischarging {
-		var notification dbusnotification.Notification
+		var ntf notification.Notification
 		if capacity <= runtimeConfig.CriticalWarningPercentageThreshold {
-			notification.Summary = "Very Low Battery"
-			notification.Body = fmt.Sprintf("Charge is at %d%%. Plug in AC power now!", capacity)
-			notification.Urgency = dbusnotification.UrgencyCritical
-			notification.Send()
+			ntf.Summary = "Very Low Battery"
+			ntf.Body = fmt.Sprintf("Charge is at %d%%. Plug in AC power now!", capacity)
+			ntf.Urgency = notification.UrgencyCritical
+			ntf.Send()
 		} else if capacity <= runtimeConfig.NormalWarningPercentageThreshold {
-			notification.Summary = "Low Battery"
-			notification.Body = fmt.Sprintf("Charge is at %d%%.", capacity)
-			notification.Urgency = dbusnotification.UrgencyNormal
-			notification.Send()
+			ntf.Summary = "Low Battery"
+			ntf.Body = fmt.Sprintf("Charge is at %d%%.", capacity)
+			ntf.Urgency = notification.UrgencyNormal
+			ntf.Send()
 		}
 	}
 

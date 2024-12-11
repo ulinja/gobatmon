@@ -1,4 +1,4 @@
-package dbusnotification
+package notification
 
 import (
 	"fmt"
