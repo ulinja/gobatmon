@@ -3,15 +3,17 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/ulinja/gobatmon/internal/battery"
+	"github.com/ulinja/gobatmon/internal/cliargs"
 	"github.com/ulinja/gobatmon/internal/config"
 	"github.com/ulinja/gobatmon/internal/notification"
 	"github.com/ulinja/gobatmon/internal/util"
 )
 
-const version = "0.2.0"
+const version = "0.3.0"
 
 // runCheck executes a battery capacity and state check, reading these from the filesystem,
 // comparing them to the configured threshold values, and triggering a notification if appropriate.
@@ -70,9 +72,18 @@ func durationUntilNextCheck(config *config.RuntimeConfig, programState *programS
 }
 
 func main() {
+	runtimeConfig, showHelpAndExit, showVersionAndExit := cliargs.ParseRuntimeConfig()
+	if showHelpAndExit {
+		cliargs.PrintHelp()
+		os.Exit(0)
+	}
+	if showVersionAndExit {
+		fmt.Printf("gobatmon v%s\n", version)
+		os.Exit(0)
+	}
+
 	log.Printf("starting gobatmon v%s\n", version)
 	util.AssertDbusNotificationsAvailable()
-	runtimeConfig := config.GetRuntimeConfig()
 	var programState programState
 
 	for {
