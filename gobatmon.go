@@ -11,7 +11,7 @@ import (
 	"github.com/ulinja/gobatmon/internal/util"
 )
 
-const version = "0.1.0"
+const version = "0.2.0"
 
 // runCheck executes a battery capacity and state check, reading these from the filesystem,
 // comparing them to the configured threshold values, and triggering a notification if appropriate.
@@ -20,18 +20,17 @@ func runCheck(runtimeConfig *config.RuntimeConfig) (capacity uint, batteryState 
 	batteryState = battery.ReadBatteryState()
 
 	if batteryState == battery.BatteryStateDischarging {
+		var notification dbusnotification.Notification
 		if capacity <= runtimeConfig.CriticalWarningPercentageThreshold {
-			notification.ShowNotification(notification.Notification{
-				Urgency: notification.UrgencyLevelCritical,
-				Summary: "Very Low Battery",
-				Body:    fmt.Sprintf("Charge is at %d%%.", capacity),
-			})
+			notification.Summary = "Very Low Battery"
+			notification.Body = fmt.Sprintf("Charge is at %d%%. Plug in AC power now!", capacity)
+			notification.Urgency = dbusnotification.UrgencyCritical
+			notification.Send()
 		} else if capacity <= runtimeConfig.NormalWarningPercentageThreshold {
-			notification.ShowNotification(notification.Notification{
-				Urgency: notification.UrgencyLevelNormal,
-				Summary: "Low Battery",
-				Body:    fmt.Sprintf("Charge is at %d%%.", capacity),
-			})
+			notification.Summary = "Low Battery"
+			notification.Body = fmt.Sprintf("Charge is at %d%%.", capacity)
+			notification.Urgency = dbusnotification.UrgencyNormal
+			notification.Send()
 		}
 	}
 
@@ -72,7 +71,7 @@ func durationUntilNextCheck(config *config.RuntimeConfig, programState *programS
 
 func main() {
 	log.Printf("starting gobatmon v%s\n", version)
-	util.AssertDependenciesInstalled()
+	util.AssertDbusNotificationsAvailable()
 	runtimeConfig := config.GetRuntimeConfig()
 	var programState programState
 

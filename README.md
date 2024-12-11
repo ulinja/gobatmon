@@ -2,8 +2,8 @@
 
 Gobatmon is a very simple battery level monitoring daemon for Linux systems.
 
-It continuously keeps an eye on the current charge level of the battery in your laptop and triggers warning notifications in case of
-low charge.
+It keeps an eye on the current charge level of the battery in your laptop and triggers desktop notifications warning
+you about low charge.
 
 If charging with AC power or above 20% charge, you will see no notifications.
 If running on battery power and below 20% / 10% charge, you will receive a low battery / very low battery notification
@@ -11,28 +11,29 @@ every 10 minutes / 5 minutes respectively. That's it.
 
 **System requirements:**
 
-- a Linux system
+- a Linux Desktop system
 - a battery
 - a running notification server (`swaync`, `dunst` etc.)
-- the `notify-send` program on your path (should come preinstalled with your notification server)
 
-If you are using a desktop environment like Gnome or KDE Plasma, you likely won't need this software.
+If you are using a desktop environment (Xfce/Gnome/Plasma etc.) you most likely don't need this software.
+
+Gobatmon uses DBUS to dispatch desktop notifications.
 
 ## Installation
 
 ### Manual
 
-Download the the precompiled binary (`gobatmon`) from the [latest release page](https://github.com/ulinja/gobatmon/releases/latest).
+Download the the precompiled binary (`gobatmon`) from the [latest release](https://github.com/ulinja/gobatmon/releases/latest).
 Alternatively, install Go and build it yourself.
 
-Configure your window manager to start it on launch, or put the following into your startup script:
+Save the binary and configure your window manager to start it on launch, by putting the following into your startup script:
 ```bash
 /path/to/gobatmon &
 ```
 
 The daemon will run continuously in the background.
 
-Gobatmon is designed to run on as few resources as possible to conserve CPU cycles and thus its power requirement.
+Gobatmon is super-low on resources to conserve CPU cycles and thus its power requirement.
 
 ### NixOS
 

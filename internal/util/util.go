@@ -3,7 +3,8 @@ package util
 import (
 	"fmt"
 	"log"
-	"os/exec"
+
+	"github.com/godbus/dbus/v5"
 )
 
 // ExitOnError logs a fatal error message and exits the program with the provided prefix if error is not nil.
@@ -21,14 +22,15 @@ func ExitOnError(err error, prefix string) {
 	log.Fatalln(msg)
 }
 
-// AssertDependenciesInstalled checks if all executable dependencies are present on $PATH, and terminates
-// the program with an error message if not.
-func AssertDependenciesInstalled() {
-	executables := []string{
-		"notify-send",
-	}
-	for _, e := range executables {
-		_, err := exec.LookPath(e)
-		ExitOnError(err, "Missing dependency")
-	}
+func AssertDbusNotificationsAvailable() {
+	conn, err := dbus.ConnectSessionBus()
+	ExitOnError(err, "DBUS session bus is not available")
+	defer conn.Close()
+
+	obj := conn.Object("org.freedesktop.Notifications", "/org/freedesktop/Notifications")
+	call := obj.Call("org.freedesktop.Notifications.GetCapabilities", 0)
+	ExitOnError(call.Err, "DBUS notification service is not available")
+	var ret []string
+	err = call.Store(&ret)
+	ExitOnError(err, "DBUS notification service is not available")
 }
