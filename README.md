@@ -1,13 +1,11 @@
 # Gobatmon
 
-Gobatmon is a very simple battery level monitoring daemon for Linux systems.
+Gobatmon is a simple battery level monitoring daemon for Linux systems.
 
-It keeps an eye on the current charge level of the battery in your laptop and triggers desktop notifications warning
-you about low charge.
+It keeps an eye on the current charge level of the battery in your laptop and triggers desktop notifications to warn you
+if your battery is low.
 
-If charging with AC power or above 20% charge, you will see no notifications.
-If running on battery power and below 20% / 10% charge, you will receive a low battery / very low battery notification
-every 10 minutes / 5 minutes respectively. That's it.
+Gobatmon is super-low on resources to conserve CPU cycles and thus battery life.
 
 **System requirements:**
 
@@ -15,13 +13,17 @@ every 10 minutes / 5 minutes respectively. That's it.
 - a battery
 - a running notification server (`swaync`, `dunst` etc.)
 
-If you are using a desktop environment (Xfce/Gnome/Plasma etc.) you most likely don't need this software.
+> If you are using a desktop environment (Xfce/Gnome/Plasma etc.) you most likely don't need this software.
 
-Gobatmon uses DBUS to dispatch desktop notifications.
+> Gobatmon uses DBUS to dispatch desktop notifications.
+
+Gobatmon's behavior is fully configurable using commandline arguments.
 
 ## Usage
 
-Simply run it by executing `gobatmon`.
+Simply run it by executing `gobatmon`. Gobatmon will run continuously.
+
+The following options can be configured:
 
 ```
 gobatmon [OPTIONS]
@@ -35,13 +37,27 @@ Options:
         Timeout in seconds after which a normal low battery warning is repeated (default 600)
     --critical-warning-reminder-timeout uint
         Timeout in seconds after which a critical low battery warning is repeated (default 300)
+    --disable-icons (default false)
+        Do not show icons in warning notifications
+    --normal-warning-icon-name string
+        Name of the icon to use for normal low battery warning notifications (default "battery-low")
+    --critical-warning-icon-name string
+        Name of the icon to use for critical low battery warning notifications (default "battery-caution")
     --poll-rate uint
-        Poll rate for battery status in seconds (default 60)
+        Poll rate for checking battery status in seconds (default 60)
     --version
         Show version information and exit
     --help
         Show help message and exit
 ```
+
+While charging the battery or above the normal warning threshold, gobatmon will not display any notifications, and will
+poll the battery status to watch for changes.
+
+When running on battery power and below the normal/critical warning thresholds (20%/10% by default), gobatmon will check
+the battery status and notify you with a reminder every 10 minutes / 5 minutes (by default) respectively.
+
+That's it.
 
 ## Installation
 
@@ -55,9 +71,6 @@ Save the binary and configure your window manager to start it on launch, by putt
 /path/to/gobatmon &
 ```
 
-The daemon will run continuously in the background.
-
-Gobatmon is super-low on resources to conserve CPU cycles and thus its power requirement.
 
 ### NixOS
 
@@ -91,3 +104,7 @@ A [pre-commit script](/.pre-commit) is provided, you can activate it in your loc
 ```bash
 ln -sr .pre-commit .git/hooks/pre-commit
 ```
+
+## Roadmap
+
+- add notification sounds

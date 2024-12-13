@@ -1,7 +1,6 @@
 package notification
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/godbus/dbus/v5"
@@ -22,8 +21,8 @@ const (
 )
 
 type Notification struct {
-	Id uint32
-	//Icon string
+	Id   uint32
+	Icon string
 	//Sound string
 	Summary string
 	Body    string
@@ -53,8 +52,12 @@ func (notification *Notification) Send() {
 	default:
 		dn.setUrgency(dbusUrgencyNormal)
 	}
-	//dn.setIcon(notification.Icon)
-	//dn.setSound(notification.Sound)
+	if len(notification.Icon) > 0 {
+		dn.setIcon(notification.Icon)
+	}
+	//if len(notification.Sound) > 0 {
+	//	dn.setSound(notification.Sound)
+	//}
 
 	id := sendDbusNotification(conn, dn)
 	notification.Id = id
@@ -86,12 +89,10 @@ type hint struct {
 	Variant dbus.Variant
 }
 
-// TODO: implement setting image
-func hintIconFilePath(imageAbsolutePath string) hint {
-	uri := fmt.Sprintf("file://%s", imageAbsolutePath)
+func hintIconName(iconName string) hint {
 	return hint{
 		ID:      "image-path",
-		Variant: dbus.MakeVariant(uri),
+		Variant: dbus.MakeVariant(iconName),
 	}
 }
 
@@ -122,7 +123,7 @@ func (dn *dbusNotification) setUrgency(urgency dbusUrgency) {
 }
 
 func (dn *dbusNotification) setIcon(iconName string) {
-	dn.addHint(hintIconFilePath(iconName))
+	dn.addHint(hintIconName(iconName))
 }
 
 func (dn *dbusNotification) setSound(soundName string) {

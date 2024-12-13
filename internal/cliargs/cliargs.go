@@ -8,6 +8,8 @@ import (
 )
 
 func ParseRuntimeConfig() (runtimeConfig config.RuntimeConfig, showHelp bool, showVersion bool) {
+	var disableIcons bool
+
 	flag.UintVar(
 		&runtimeConfig.PollRate,
 		"poll-rate",
@@ -38,6 +40,24 @@ func ParseRuntimeConfig() (runtimeConfig config.RuntimeConfig, showHelp bool, sh
 		config.DefaultCriticalWarningReminderTimeout,
 		"Timeout in seconds after which a critical low battery warning is repeated",
 	)
+	flag.StringVar(
+		&runtimeConfig.NormalWarningIconName,
+		"normal-warning-icon-name",
+		config.DefaultNormalWarningIconName,
+		"Name of the icon to use for normal low battery warning notifications",
+	)
+	flag.StringVar(
+		&runtimeConfig.CriticalWarningIconName,
+		"critical-warning-icon-name",
+		config.DefaultCriticalWarningIconName,
+		"Name of the icon to use for critical low battery warning notifications",
+	)
+	flag.BoolVar(
+		&disableIcons,
+		"disable-icons",
+		false,
+		"Do not show icons in warning notifications",
+	)
 
 	flag.BoolVar(
 		&showHelp,
@@ -53,6 +73,7 @@ func ParseRuntimeConfig() (runtimeConfig config.RuntimeConfig, showHelp bool, sh
 	)
 
 	flag.Parse()
+	runtimeConfig.EnableIcons = !disableIcons
 	runtimeConfig = config.CleanRuntimeConfig(runtimeConfig, true)
 
 	return

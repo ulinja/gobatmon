@@ -13,7 +13,7 @@ import (
 	"github.com/ulinja/gobatmon/internal/util"
 )
 
-const version = "0.3.0"
+const version = "0.4.0"
 
 // runCheck executes a battery capacity and state check, reading these from the filesystem,
 // comparing them to the configured threshold values, and triggering a notification if appropriate.
@@ -27,11 +27,17 @@ func runCheck(runtimeConfig *config.RuntimeConfig) (capacity uint, batteryState 
 			ntf.Summary = "Very Low Battery"
 			ntf.Body = fmt.Sprintf("Charge is at %d%%. Plug in AC power now!", capacity)
 			ntf.Urgency = notification.UrgencyCritical
+			if runtimeConfig.EnableIcons {
+				ntf.Icon = runtimeConfig.CriticalWarningIconName
+			}
 			ntf.Send()
 		} else if capacity <= runtimeConfig.NormalWarningPercentageThreshold {
 			ntf.Summary = "Low Battery"
 			ntf.Body = fmt.Sprintf("Charge is at %d%%.", capacity)
 			ntf.Urgency = notification.UrgencyNormal
+			if runtimeConfig.EnableIcons {
+				ntf.Icon = runtimeConfig.NormalWarningIconName
+			}
 			ntf.Send()
 		}
 	}

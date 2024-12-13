@@ -10,6 +10,9 @@ type RuntimeConfig struct {
 	CriticalWarningPercentageThreshold uint
 	NormalWarningReminderTimeout       uint
 	CriticalWarningReminderTimeout     uint
+	NormalWarningIconName              string
+	CriticalWarningIconName            string
+	EnableIcons                        bool
 }
 
 const (
@@ -18,6 +21,9 @@ const (
 	DefaultCriticalWarningPercentageThreshold = 10
 	DefaultNormalWarningReminderTimeout       = 10 * 60
 	DefaultCriticalWarningReminderTimeout     = 5 * 60
+	DefaultNormalWarningIconName              = "battery-low"
+	DefaultCriticalWarningIconName            = "battery-caution"
+	DefaultEnableIcons                        = true
 )
 
 func logValidationWarning(msg string, exitOnError bool) {
@@ -74,6 +80,15 @@ func CleanRuntimeConfig(config RuntimeConfig, exitOnError bool) (cleanedConfig R
 		cleanedConfig.CriticalWarningReminderTimeout = DefaultCriticalWarningReminderTimeout
 	}
 
+	if len(cleanedConfig.NormalWarningIconName) == 0 {
+		logValidationWarning("Normal Warning Icon Name cannot be empty", exitOnError)
+		cleanedConfig.NormalWarningIconName = DefaultNormalWarningIconName
+	}
+	if len(cleanedConfig.CriticalWarningIconName) == 0 {
+		logValidationWarning("Critical Warning Icon Name cannot be empty", exitOnError)
+		cleanedConfig.CriticalWarningIconName = DefaultCriticalWarningIconName
+	}
+
 	return
 }
 
@@ -85,5 +100,7 @@ func GetDefaultRuntimeConfig() (runtimeConfig RuntimeConfig) {
 		CriticalWarningPercentageThreshold: DefaultCriticalWarningPercentageThreshold,
 		NormalWarningReminderTimeout:       DefaultNormalWarningReminderTimeout,
 		CriticalWarningReminderTimeout:     DefaultCriticalWarningReminderTimeout,
+		NormalWarningIconName:              DefaultNormalWarningIconName,
+		CriticalWarningIconName:            DefaultCriticalWarningIconName,
 	}
 }
