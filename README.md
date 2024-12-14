@@ -1,5 +1,9 @@
 # Gobatmon
 
+[![Go](https://img.shields.io/badge/Go-%2300ADD8.svg?&logo=go&logoColor=white)](#)
+[![GitHub Release](https://img.shields.io/github/v/release/ulinja/gobatmon?logo=GitHub&label=Version&color=green)](https://github.com/ulinja/gobatmon/releases/latest)
+[![AUR Version](https://img.shields.io/aur/version/gobatmon?logo=Arch%20Linux&label=AUR)](https://aur.archlinux.org/packages/gobatmon)
+
 Gobatmon is a simple battery level monitoring daemon for Linux systems.
 
 It keeps an eye on the current charge level of the battery in your laptop and triggers desktop notifications to warn you
@@ -61,6 +65,14 @@ That's it.
 
 ## Installation
 
+### Arch Linux
+
+Gobatmon is available in the AUR as [gobatmon](https://aur.archlinux.org/packages/gobatmon).
+
+### NixOS
+
+> :construction: Will be added in the future.
+
 ### Manual
 
 Download the the precompiled binary (`gobatmon`) from the [latest release](https://github.com/ulinja/gobatmon/releases/latest).
@@ -70,11 +82,6 @@ Save the binary and configure your window manager to start it on launch, by putt
 ```bash
 /path/to/gobatmon &
 ```
-
-
-### NixOS
-
-> :construction: Will be added in the future.
 
 ## Development
 
