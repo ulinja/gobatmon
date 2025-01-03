@@ -2,6 +2,7 @@
 
 [![Go](https://img.shields.io/badge/Go-%2300ADD8.svg?&logo=go&logoColor=white)](#)
 [![GitHub Release](https://img.shields.io/github/v/release/ulinja/gobatmon?logo=GitHub&label=Version&color=green)](https://github.com/ulinja/gobatmon/releases/latest)
+[![NixOS Package](https://img.shields.io/badge/nixpkgs-unstable-aqua?logo=nixos)](https://github.com/NixOS/nixpkgs/tree/nixpkgs-unstable/pkgs/by-name/go/gobatmon)
 [![AUR Version](https://img.shields.io/aur/version/gobatmon?logo=Arch%20Linux&label=AUR)](https://aur.archlinux.org/packages/gobatmon)
 
 Gobatmon is a simple battery level monitoring daemon for Linux systems.
